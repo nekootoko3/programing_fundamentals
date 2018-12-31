@@ -1,7 +1,7 @@
 #use "global_ekikan_list.ml"
 
 (* return ekikan kyori *)
-(* get_ekikan_kyori : string -> string -> ekikan_t list -> int *)
+(* get_ekikan_kyori : string (* kanji *) -> string (* kanji *) -> ekikan_t list -> int *)
 let rec get_ekikan_kyori eki1 eki2 lst = match lst with
     [] -> infinity
   | {kiten = k; shuten = s; keiyu = ky; kyori = kr;  jikan = j} :: rest ->
