@@ -1,9 +1,30 @@
-#use "koushin1.ml"
+#use "eki_t.ml"
+#use "get_ekikan_kyori.ml"
 
 (* let koushin p v = List.map (koushin1 p) v *)
+let koushin p v = match p with
+  {namae = np; saitan_kyori = skp; temae_list = tlp} ->
+    List.map (fun q -> match q with
+                {namae = nq; saitan_kyori = skq; temae_list = tlq} ->
+                  let kyori = get_ekikan_kyori np nq global_ekikan_list
+                  in if kyori = infinity then q
+                     else if kyori +. skp < skq
+                       then {namae = nq; saitan_kyori = kyori +. skp; temae_list = nq :: tlp}
+                     else q) v
+
+(*
 let koushin p v =
-	let f q = koushin1 p q in
-	List.map f v
+  let koushin1 p q = match (p, q) with
+    ({namae = np; saitan_kyori = skp; temae_list = tlp},
+     {namae = nq; saitan_kyori = skq; temae_list = tlq}) ->
+       let kyori = get_ekikan_kyori np nq global_ekikan_list
+       in if kyori = infinity then q
+          else if kyori +. skp < skq
+            then {namae = nq; saitan_kyori = kyori +. skp; temae_list = nq :: tlp}
+          else q
+  in let f q = koushin1 p q
+  in List.map f v
+*)
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 

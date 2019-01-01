@@ -7,11 +7,13 @@ let ekimei_to_eki ekimei = match ekimei with
     {namae = k; saitan_kyori = infinity; temae_list = []}
 
 (* make_eki_list : ekimei_t list -> eki_t list *)
-let rec make_eki_list ekimei_list = match ekimei_list with
-    [] -> []
-  | ({kanji = k; kana = a; romaji = r; shozoku = s} as first) :: rest ->
-      ekimei_to_eki first :: make_eki_list rest
-  
+let make_eki_list ekimei_list =
+  List.map
+    (fun ekimei -> match ekimei with
+      {kanji = k; kana = a; romaji = r; shozoku = s} ->
+        {namae = k; saitan_kyori = infinity; temae_list = []})
+    ekimei_list
+
 let ekimei_list = [ 
   {kanji="池袋"; kana="いけぶくろ"; romaji="ikebukuro"; shozoku="丸ノ内線"}; 
   {kanji="新大塚"; kana="しんおおつか"; romaji="shinotsuka"; shozoku="丸ノ内線"}; 

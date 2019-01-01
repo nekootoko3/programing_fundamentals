@@ -10,11 +10,12 @@ let eki_list = [
 {namae="御茶ノ水"; saitan_kyori = infinity; temae_list = []} 
 ] 
 
-let rec shokika eki_list ekimei = match eki_list with
-    [] -> []
-  | ({namae = n; saitan_kyori = sk; temae_list = tl} as first) :: rest ->
-      if n = ekimei then {namae = n; saitan_kyori = 0.; temae_list = [ekimei]} :: rest
-      else first :: shokika rest ekimei
+let shokika eki_list kiten =
+  List.map (fun eki -> match eki with
+             {namae = n; saitan_kyori = sk; temae_list = tl} ->
+             if n = kiten then {namae = n; saitan_kyori = 0.; temae_list = [kiten]}
+             else eki)
+           eki_list
 
 (* テスト *) 
 let test1 = shokika [] "茗荷谷" = [] 
