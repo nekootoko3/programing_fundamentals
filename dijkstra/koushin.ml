@@ -1,7 +1,8 @@
 #use "eki_t.ml"
 #use "get_ekikan_kyori.ml"
 
-(* let koushin p v = List.map (koushin1 p) v *)
+(* 直前に確定した点pと未確定の点リストvを受け取り、vの最短距離を更新する *)
+(* koushin : eki_t -> eki_t list -> eki_t list *)
 let koushin p v = match p with
   {namae = np; saitan_kyori = skp; temae_list = tlp} ->
     List.map (fun q -> match q with
@@ -10,7 +11,8 @@ let koushin p v = match p with
                   in if kyori = infinity then q
                      else if kyori +. skp < skq
                        then {namae = nq; saitan_kyori = kyori +. skp; temae_list = nq :: tlp}
-                     else q) v
+                     else q)
+             v
 
 (*
 let koushin p v =
