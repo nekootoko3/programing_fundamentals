@@ -1,0 +1,19 @@
+#use "ekikan_tree_t.ml"
+#use "inserts_ekikan.ml"
+#use "assoc.ml"
+
+(* get_ekikan_kyori : string -> string -> ekikan_tree_t -> float *)
+let rec get_ekikan_kyori shiten shuten ekikan_tree = match ekikan_tree with
+    | Empty -> infinity
+  | Node (left, ekimei, lst, right) ->
+      if shiten = ekimei then assoc ekimei lst
+      else if shiten < ekimei then get_ekikan_kyori shiten shuten left
+      else get_ekikan_kyori shiten shuten right
+
+
+
+(* テスト *) 
+let global_ekikan_tree = inserts_ekikan Empty global_ekikan_list 
+let test1 = get_ekikan_kyori "茗荷谷" "新大塚" global_ekikan_tree = 1.2 
+let test2 = get_ekikan_kyori "茗荷谷" "池袋" global_ekikan_tree = infinity 
+let test3 = get_ekikan_kyori "東京" "大手町" global_ekikan_tree = 0.6 
