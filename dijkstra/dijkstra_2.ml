@@ -2,7 +2,7 @@
 #use "global_ekikan_list.ml"
 #use "eki_t.ml"
 #use "ekikan_tree_t.ml"
-#use "redBlack.ml"
+#use "tree.ml"
 
 (* romaji_to_kanji : string -> eki_t list -> string *)
 let rec romaji_to_kanji r0 lst = match lst with
@@ -11,13 +11,13 @@ let rec romaji_to_kanji r0 lst = match lst with
       if r = r0 then k
       else romaji_to_kanji r0 rest
 
-(* insert1 : ('a, ('b * 'c) list) t ->
-               'a -> 'b -> 'c -> ('a, ('b * 'c) list) t *)
+(* insert1 : ('a, ('b * 'c) list) Tree.t ->
+               'a -> 'b -> 'c -> ('a, ('b * 'c) list) Tree.t *)
 let insert1 ekikan_tree kiten shuten kyori =
   let lst = try
-              search ekikan_tree kiten
+              Tree.search ekikan_tree kiten
             with Not_found -> []
-  in insert ekikan_tree kiten ((shuten, kyori) :: lst)
+  in Tree.insert ekikan_tree kiten ((shuten, kyori) :: lst)
 
 (* ekikan_tree_t と ekikan_t を受け取って、ekikan_t の情報を ekikan_tree_t に挿入して返す *)
 (* insert_ekikan : ekikan_tree_t -> ekikan_t -> ekikan_tree_t *)
@@ -32,7 +32,7 @@ let inserts_ekikan ekikan_tree ekikan_list =
 (* 目的：ふたつの駅の間の距離を求める *) 
 (* get_ekikan_kyori : string -> string -> ekikan_tree_t -> float *) 
 let get_ekikan_kyori eki1 eki2 tree =
-  List.assoc eki2 (search tree eki1)
+  List.assoc eki2 (Tree.search tree eki1)
 
 (* saitan_wo_bunri : eki_t list -> (eki_t * eki_t list) *)
 let saitan_wo_bunri eki_list =
@@ -93,7 +93,7 @@ let dijkstra romaji_kiten romaji_shuten =
   let kiten = romaji_to_kanji romaji_kiten global_ekimei_list in 
   let shuten = romaji_to_kanji romaji_shuten global_ekimei_list in 
   let eki_list = make_initial_eki_list global_ekimei_list kiten in 
-  let global_ekikan_tree = inserts_ekikan empty global_ekikan_list in 
+  let global_ekikan_tree = inserts_ekikan Tree.empty global_ekikan_list in 
   let eki_list2 = dijkstra_main eki_list global_ekikan_tree in 
   find shuten eki_list2 
 
