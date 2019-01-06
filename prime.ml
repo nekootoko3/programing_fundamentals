@@ -1,7 +1,11 @@
 (* sieve : int list -> int list *)
-let rec sieve lst = match lst with
+let rec sieve lst = (
+  print_string "lst is ";
+  print_int (List.length lst);
+  print_newline ();
+  match lst with
     [] -> []
-  | first :: rest -> first :: sieve (List.filter (fun item -> item mod first <> 0) rest)
+  | first :: rest -> first :: sieve (List.filter (fun item -> item mod first <> 0) rest))
 
 (* test *)
 let test1 = sieve [2] = [2]
